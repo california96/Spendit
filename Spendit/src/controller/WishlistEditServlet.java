@@ -59,7 +59,7 @@ public class WishlistEditServlet extends HttpServlet {
 		String formatted = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
 		Wishlist wish = new Wishlist(user.getUserID(), categoryID, incomeSourceID, 1, amount, formatted, comment);
 		WishlistOperations wishOps = new WishlistOperations();
-		wishOps.editWishlist(connection, categoryID, statusID, amount, formatted, comment, wishID);
+		wishOps.editWishlist(connection, categoryID, incomeSourceID, statusID, amount, formatted, comment, wishID);
 		response.sendRedirect("retrievewishlist.action");
 		}catch(Exception e) {
 			System.err.println(e.getMessage());

@@ -52,16 +52,17 @@ public class WishlistOperations {
 		}
 		return wishlist;
 	}
-	public void editWishlist(Connection connection, int categoryID, int statusID, double amount, String date, String comment, int wishID) {
-		String sql = "UPDATE wishlist SET categoryID = ?, statusID = ?, amount = ?, date = ?, comment = ? WHERE wishID = ?";
+	public void editWishlist(Connection connection, int categoryID, int incomeSourceID, int statusID, double amount, String date, String comment, int wishID) {
+		String sql = "UPDATE wishlist SET categoryID = ?, incomeSourceID = ?, statusID = ?, amount = ?, date = ?, comment = ? WHERE wishID = ?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, categoryID);
-			ps.setInt(2, statusID);
-			ps.setDouble(3, amount);
-			ps.setString(4, date);
-			ps.setString(5, comment);
-			ps.setInt(6, wishID);
+			ps.setInt(2, incomeSourceID);
+			ps.setInt(3, statusID);
+			ps.setDouble(4, amount);
+			ps.setString(5, date);
+			ps.setString(6, comment);
+			ps.setInt(7, wishID);
 			ps.executeUpdate();
 		}catch(SQLException sqle) {
 			System.err.println(sqle.getMessage());

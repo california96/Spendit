@@ -6,6 +6,8 @@ Spendit is an expense tracking project that enables the user to keep track of th
 
 >Clone/Download the project
 
+>Download node if you haven't yet. This project requires npm.
+
 >Run the following commands inside the cloned repository:
 
 ```

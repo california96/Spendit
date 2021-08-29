@@ -211,9 +211,9 @@ a.login:hover {
     </div>
   </div>
 <!-- jQuery -->
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
+<script src="node_modules/admin-lte/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="node_modules/admin-lte/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script>
 document.title = "Spendit - Forgot Password";
  $("#forgot-form").submit(function(e){

@@ -24,4 +24,5 @@ npm install admin-lte@^3.0 --save
 >When running the project with Tomcat (ideally 7.0 or later), begin with /createTables.action. This initializes the database tables as well as the predefined values
 
 >To get audit trails, go to /downloadlogs.action
+
 >Enjoy

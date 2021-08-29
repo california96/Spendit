@@ -26,3 +26,7 @@ npm install admin-lte@^3.0 --save
 >To get audit trails, go to /downloadlogs.action
 
 >Enjoy
+
+#Future Patches in the Cards
+
+>Admin authentication of audit download via web.xml

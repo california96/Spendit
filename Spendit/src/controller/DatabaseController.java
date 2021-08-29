@@ -83,6 +83,8 @@ public class DatabaseController implements DatabaseFacade{
 			stmt.addBatch(statusTable);
 			stmt.addBatch(userTable);
 			stmt.addBatch(wishlistTable);
+			stmt.addBatch(logsTable);
+			stmt.addBatch(activityTable);
 			
 			stmt.executeBatch();
 		}catch(SQLException sqle) {
@@ -161,11 +163,8 @@ public class DatabaseController implements DatabaseFacade{
 		
 		String readyStatus = "INSERT INTO `status` VALUES (1,'On-going'),(2,'On-hold'),(3,'Ready for purchase'),(4,'Complete');";
 		
-		String readyActivities = "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('1', 'Account Created');\r\n"
-				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('2', 'Logged In');\r\n"
-				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('3', 'Logged Out');\r\n"
-				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('4', 'Forgot Password Request');\r\n"
-				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('5', 'Updated Password');\r\n";
+		String readyActivities = "INSERT INTO `activities` (`activityID`, `activityName`) VALUES (1, 'Account Created'),(2, 'Logged In'),(3, 'Logged Out'),(4, 'Forgot Password Request'),(5, 'Updated Password');";
+		
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.addBatch(readyModules);

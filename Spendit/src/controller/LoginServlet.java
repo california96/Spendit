@@ -46,6 +46,8 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if(auth.authenticate(connection, username, password)) {
+			int userID = auth.getUser(connection, username).getUserID();
+			LogController.logActivity(connection, userID, LogController.LOGGED_IN);
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 			errorMsg.put("msg", "success");

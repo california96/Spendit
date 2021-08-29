@@ -1,11 +1,23 @@
 package controller;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.opencsv.CSVWriter;
+
+import model.Log;
 
 public class LogController {
 	public static final int ACCOUNT_CREATED = 1;
@@ -26,5 +38,21 @@ public class LogController {
 			System.err.println(sqle.getMessage());
 		}
 	}
+	public static ResultSet getAllLogs(Connection connection){
+		ResultSet rs = null;
+		String sql = "SELECT users.email, activities.activityName, date FROM logs\n" + 
+				"INNER JOIN users on logs.userID = users.userID\n" + 
+				"INNER JOIN activities on logs.activityID = activities.activityID";
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+		}catch(SQLException sqle) {
+			System.err.println(sqle.getMessage());
+		}
+		return rs;
+	}
+	
+	
 	
 }

@@ -1,0 +1,30 @@
+package controller;
+
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class LogController {
+	public static final int ACCOUNT_CREATED = 1;
+	public static final int LOGGED_IN = 2;
+	public static final int LOGGED_OUT = 3;
+	public static final int FORGOT_PASSWORD = 4;
+	public static final int UPDATED_PASSWORD = 5;
+	
+	public static void logActivity(Connection connection, int userID, int activityID) {
+		String sql = "INSERT INTO `spenditdb`.`logs` (`userID`, `activityID`, `date`) VALUES (?, ?, ?);";
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, userID);
+			ps.setInt(2, activityID);
+			ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()));
+			ps.executeUpdate();
+		}catch(SQLException sqle) {
+			System.err.println(sqle.getMessage());
+		}
+	}
+	
+}

@@ -64,6 +64,16 @@ public class DatabaseController implements DatabaseFacade{
 				"  `date` timestamp NOT NULL,\n" + 
 				"  `comment` varchar(255) NOT NULL,\n" + 
 				"  PRIMARY KEY (`wishID`));";
+		String logsTable = "CREATE TABLE `spenditdb`.`logs` (\r\n"
+				+ "  `id` INT NOT NULL AUTO_INCREMENT,\r\n"
+				+ "  `userID` INT NOT NULL,\r\n"
+				+ "  `activityID` INT NOT NULL,\r\n"
+				+ "  `date` TIMESTAMP NOT NULL,\r\n"
+				+ "  PRIMARY KEY (`id`));\r\n";
+		String activityTable = "CREATE TABLE `spenditdb`.`activities` (\r\n"
+				+ "  `activityID` INT NOT NULL AUTO_INCREMENT,\r\n"
+				+ "  `activityName` VARCHAR(255) NOT NULL,\r\n"
+				+ "  PRIMARY KEY (`activityID`));";
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.addBatch(categoryTable);
@@ -115,6 +125,14 @@ public class DatabaseController implements DatabaseFacade{
 		String wishToUser = "ALTER TABLE wishlist\n"
 				+ "ADD CONSTRAINT wishlist_userid_foreign\n"
 				+ "FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE ON UPDATE RESTRICT";
+		
+		String logToUser = "ALTER TABLE logs\n"
+				+ "ADD CONSTRAINT logs_userid_foreign\n"
+				+ "FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE ON UPDATE RESTRICT";
+		String logToActivity = "ALTER TABLE logs\n"
+				+ "ADD CONSTRAINT logs_activityid_foreign\n"
+				+ "FOREIGN KEY (activityID) REFERENCES activities(activityID) ON DELETE CASCADE ON UPDATE RESTRICT";
+		
 		try {
 			Statement stmt = connection.createStatement();
 			//Prepare Batch
@@ -127,6 +145,8 @@ public class DatabaseController implements DatabaseFacade{
 			stmt.addBatch(wishToIncome);
 			stmt.addBatch(wishToStatus);
 			stmt.addBatch(wishToUser);
+			stmt.addBatch(logToUser);
+			stmt.addBatch(logToActivity);
 			//execute batch
 			stmt.executeBatch();
 			
@@ -138,13 +158,20 @@ public class DatabaseController implements DatabaseFacade{
 		String readyModules = "INSERT INTO `modules` VALUES (1,'Expenses'),(2,'Income'),(3,'Wishlist');";
 
 		String readyCategories = "INSERT INTO `categories` VALUES (1,'Automobile',1,'Vehicles','transportation-category.png'),(2,'Food',1,'A basic necessity','food-category.png'),(3,'Mobile Phone',3,'Small companion','shopping-category.png'),(8,'Savings',2,'Keep saving.','default.png'),(9,'Salary',2,'Paycheck to paycheck','movie-category.png'),(10,'Allowance',1,'Handed to you','education-category.png');";
+		
 		String readyStatus = "INSERT INTO `status` VALUES (1,'On-going'),(2,'On-hold'),(3,'Ready for purchase'),(4,'Complete');";
+		
+		String readyActivities = "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('1', 'Account Created');\r\n"
+				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('2', 'Logged In');\r\n"
+				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('3', 'Logged Out');\r\n"
+				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('4', 'Forgot Password Request');\r\n"
+				+ "INSERT INTO `spenditdb`.`activities` (`activityID`, `activityName`) VALUES ('5', 'Updated Password');\r\n";
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.addBatch(readyModules);
-			stmt.addBatch(readyCategories);
-			
+			stmt.addBatch(readyCategories);	
 			stmt.addBatch(readyStatus);
+			stmt.addBatch(readyActivities);
 			stmt.executeBatch();
 		}catch(SQLException sqle) {
 			System.err.println(sqle.getMessage());

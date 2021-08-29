@@ -27,6 +27,6 @@ npm install admin-lte@^3.0 --save
 
 >Enjoy
 
-#Future Patches in the Cards
+# Future Patches in the Cards
 
 >Admin authentication of audit download via web.xml

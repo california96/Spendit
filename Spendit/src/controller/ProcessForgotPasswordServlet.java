@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import model.User;
 import utility.DBConnection;
 import utility.Mailer;
 import utility.BCrypt;
@@ -56,6 +57,7 @@ public class ProcessForgotPasswordServlet extends HttpServlet {
 			
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
+			LogController.logActivity(connection, userOps.getUserIDbyEmail(connection, email), LogController.FORGOT_PASSWORD);
 			errorMsg.put("msg", "success");
 			json =gson.toJson(errorMsg);
 			response.getWriter().write(json);

@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.User;
+import utility.DBConnection;
+
 /**
  * Servlet implementation class SignOutServlet
  */
@@ -29,6 +32,8 @@ public class SignOutServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession(false);
+		User user = (User) session.getAttribute("user");
+		LogController.logActivity(DBConnection.getConnection(getServletContext()), user.getUserID(), LogController.LOGGED_OUT);
 		session.invalidate();
 		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}

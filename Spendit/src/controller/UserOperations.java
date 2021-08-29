@@ -154,4 +154,21 @@ public class UserOperations {
 		}
 		return false;
 	}
+	/*Note that this is mainly for use by audit logging*/
+	public int getUserIDbyEmail(Connection connection, String email) {
+		int userID = 0;
+		try {
+			String sql = "SELECT userID from users where email = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				userID = rs.getInt("userID");
+				System.out.println("User ID: " + userID);
+			}
+		}catch(SQLException sqle) {
+			System.err.println(sqle.getMessage());
+		}
+		return userID;
+	}
 }

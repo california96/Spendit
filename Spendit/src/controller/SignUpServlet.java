@@ -63,7 +63,8 @@ public class SignUpServlet extends HttpServlet {
 			image = "default.png";
 		}
 		if(StringUtils.isBlank(firstName) || StringUtils.isBlank(firstName) || StringUtils.isBlank(lastName) || StringUtils.isBlank(username) || StringUtils.isBlank(password) ) { //assume that XSSFilter is blocked
-			response.sendRedirect("400error.jsp");
+			response.sendError(400);
+			//response.sendRedirect("400error.jsp");
 			return;
 		}
 		

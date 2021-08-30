@@ -47,7 +47,8 @@ public class CategoryEditServlet extends HttpServlet {
 		String image = request.getParameter("image");
 		int categoryID = Integer.parseInt(request.getParameter("categoryID"));
 		if(StringUtils.isBlank(name) || StringUtils.isBlank(description)) {
-			response.sendRedirect("400.jsp");
+			//response.sendRedirect("400.jsp");
+			response.sendError(400);
 			return;
 		}
 		CategoryOperations cOps = new CategoryOperations();

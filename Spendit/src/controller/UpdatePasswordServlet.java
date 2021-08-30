@@ -63,6 +63,7 @@ public class UpdatePasswordServlet extends HttpServlet {
 			//json = gson.toJson(message);
 		//	response.getWriter().write(json);
 		//	response.sendRedirect("accountsettings.jsp");
+			LogController.logActivity(connection, user.getUserID(), LogController.UPDATED_PASSWORD);
 			PrintWriter out = response.getWriter();
 			out.print("<script>alert('Password updated!');"
 					+ "window.location = 'accountsettings.jsp';</script>");

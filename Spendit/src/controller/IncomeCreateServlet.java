@@ -48,7 +48,8 @@ public class IncomeCreateServlet extends HttpServlet {
 		User user = (User)session.getAttribute("user");
 		Connection connection = DBConnection.getConnection(getServletContext());
 		if(StringUtils.isBlank(comment)) {
-			response.sendRedirect("400.jsp");
+			response.sendError(400);
+			//response.sendRedirect("400.jsp");
 			return;
 		}
 		try {

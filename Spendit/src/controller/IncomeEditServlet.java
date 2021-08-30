@@ -49,7 +49,8 @@ public class IncomeEditServlet extends HttpServlet {
 		Connection connection = DBConnection.getConnection(getServletContext());
 		IncomeOperations inOps = new IncomeOperations();
 		if(StringUtils.isBlank(comment)) {
-			response.sendRedirect("400.jsp");
+			response.sendError(400);
+			//response.sendRedirect("400.jsp");
 			return;
 		}
 		try {

@@ -58,7 +58,8 @@ public class UpdateAccountDetailsServlet extends HttpServlet {
 			
 			System.out.println("User Name is: " + username);
 			System.out.println("Email  is: " + email);
-			response.sendRedirect("400.jsp");
+			//response.sendRedirect("400.jsp");
+			response.sendError(400);
 			return;
 		}
 		if(filePart.getSize() > 0) {

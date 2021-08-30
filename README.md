@@ -4,7 +4,7 @@ Spendit is an expense tracking project that enables the user to keep track of th
 
 # Setup tutorial
 
->Ideally your environment is Java 8
+>Ideally your environment is is Java 8 (aka 1.8)
 
 >Clone/Download the project
 
@@ -21,7 +21,7 @@ npm install admin-lte@^3.0 --save
 
 >Edit web.xml data accordingly. This includes schema url, image folder directories, etc
 
->When running the project with Tomcat (ideally 7.0 or later), begin with /createTables.action. This initializes the database tables as well as the predefined values
+>When running the project with Tomcat (7.0 or later), begin with /createTables.action. This initializes the database tables as well as the predefined values
 
 >To get audit trails, go to /downloadlogs.action
 
@@ -30,3 +30,6 @@ npm install admin-lte@^3.0 --save
 # Future Patches in the Cards
 
 >Admin authentication of audit download via web.xml
+
+>Implementation of SSL
+

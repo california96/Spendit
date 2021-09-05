@@ -14,6 +14,10 @@
   	<location>/400.jsp</location>
   </error-page>
   <error-page>
+  	<error-code>403</error-code>
+  	<location>/403.jsp</location>
+  </error-page>
+  <error-page>
   	<error-code>404</error-code>
   	<location>/404.jsp</location>
   </error-page>
@@ -31,11 +35,11 @@
   </context-param>
   <context-param>
   	<param-name>profilePicStorage</param-name>
-  	<param-value>/Users/bnovicio96/Desktop/storage/profilepics/</param-value>
+  	<param-value>/Users/user/Desktop/storage/profilepics/</param-value>
   </context-param>
   <context-param>
   	<param-name>categoryStorage</param-name>
-  	<param-value>/Users/bnovicio96/Desktop/storage/categories/</param-value>
+  	<param-value>/Users/user/Desktop/storage/categories/</param-value>
   </context-param>
   <context-param>
   	<param-name>MailerEmail</param-name>

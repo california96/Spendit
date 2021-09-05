@@ -31,15 +31,16 @@ public class RetrieveIncomeForEdit extends HttpServlet {
 		User user = (User) session.getAttribute("user");
 		IncomeOperations inOp = new IncomeOperations();
 		Income income = inOp.getIncome(connection, incomeID);
-//		if(income.getUserID() == user.getUserID()) {
+		if(income.getUserID() == user.getUserID()) {
 			ArrayList<Category> categories = new CategoryOperations().getCategories(connection, 2);
 			request.setAttribute("income", income);
 			request.setAttribute("categories", categories);
 			request.getRequestDispatcher("editincome.jsp").forward(request, response);
-//		}
-//		else {
-//			response.sendRedirect("index.jsp"); //this should be a 403.jsp
-//		}
+		}
+		else {
+			response.sendError(403);
+
+		}
 		
 		
 	}

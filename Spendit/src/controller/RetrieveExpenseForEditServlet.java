@@ -38,7 +38,9 @@ public class RetrieveExpenseForEditServlet extends HttpServlet {
 			request.getRequestDispatcher("editexpense.jsp").forward(request, response);
 		}
 		else {
-			response.sendRedirect("index.jsp"); //this should be a 403.jsp
+			//response.sendRedirect("index.jsp"); //this should be a 403.jsp
+			response.sendError(403);
+
 		}
 		
 		

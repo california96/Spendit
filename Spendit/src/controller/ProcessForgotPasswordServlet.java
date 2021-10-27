@@ -51,8 +51,7 @@ public class ProcessForgotPasswordServlet extends HttpServlet {
 			System.out.println(newPass);
 			userOps.updatePassword(connection, email, BCrypt.hashpw(newPass, BCrypt.gensalt()));
 			Mailer mailer = new Mailer(context);
-			String messageBody = "<h2>Hello!</h2>\n"
-					+ "<p>We have received your request to change your password. Your new password is <b>" + newPass + "</b>\n";
+			String messageBody = SpenditConstants.MESSAGE_BODY + newPass + SpenditConstants.MESSAGE_BODY_THANKS;
 			mailer.sendEmail(context.getInitParameter("MailerEmail"), context.getInitParameter("MailerPass"), email, "Change Password Request", messageBody);
 			
 			response.setContentType("application/json");

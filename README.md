@@ -33,3 +33,4 @@ npm install admin-lte@^3.0 --save
 
 >Implementation of SSL
 
+>Redesigning of email template for forgotten password requests

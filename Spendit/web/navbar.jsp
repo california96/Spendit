@@ -4,7 +4,8 @@
 <%@include file = "header.jsp" %>
  <%  
      if (session.getAttribute("user") == null) {  
-        response.sendRedirect("login.jsp");
+       // response.sendRedirect("login.jsp");
+       request.getRequestDispatcher("login.jsp").forward(request, response);
      }
   %>
 <style>

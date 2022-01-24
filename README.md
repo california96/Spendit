@@ -31,6 +31,8 @@ npm install admin-lte@^3.0 --save
 
 >Admin authentication of audit download via web.xml
 
+>Implement audit logging using Log4j 2.17
+
 >Implementation of SSL
 
 >Redesigning of email template for forgotten password requests

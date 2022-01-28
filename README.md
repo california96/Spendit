@@ -8,7 +8,7 @@ Java SDK 8
 
 https://www.oracle.com/ph/java/technologies/javase/javase8-archive-downloads.html
 
-Tomcat (8.5 or later. This project is on Servlet 3.0)
+Tomcat (9.0 or later. This project is on Servlet 3.0)
 
 https://tomcat.apache.org/
 
@@ -35,7 +35,7 @@ npm install admin-lte@^3.0 --save
 
 >Edit web.xml data accordingly. This includes schema url, image folder directories, etc
 
->When running the project with Tomcat (8.5 or later), begin with /createTables.action. This initializes the database tables as well as the predefined values
+>When running the project with Tomcat (9.0 or later), begin with /createTables.action. This initializes the database tables as well as the predefined values
 
 >To get audit trails, go to /downloadlogs.action
 

@@ -4,9 +4,9 @@
 
 # Tools for the job
 
-Java SDK 8
+Java SDK 11
 
-https://www.oracle.com/ph/java/technologies/javase/javase8-archive-downloads.html
+https://www.oracle.com/ph/java/technologies/javase/jdk11-archive-downloads.html
 
 Tomcat (9.0 or later. This project is on Servlet 3.0)
 

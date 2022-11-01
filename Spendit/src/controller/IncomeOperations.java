@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -18,6 +20,7 @@ import model.Expense;
 import model.Income;
 import model.User;
 public class IncomeOperations {
+	static Logger log = Logger.getLogger(IncomeOperations.class.getName());
 	public boolean insert(Connection connection, int userID, int categoryID, double amount, String date, String comment) {
 		String sql = "INSERT INTO incomes(userID, categoryID, amount, date, comment) VALUES (?, ?,?, ?, ?)";
 		try {
@@ -30,9 +33,9 @@ public class IncomeOperations {
 			prep.executeUpdate();
 			return true;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return false;
 	}
@@ -50,9 +53,9 @@ public class IncomeOperations {
 				incomes.add(new Income(rs.getInt("incomeID"), rs.getInt("userID"), rs.getInt("categoryID"), rs.getString("name"), rs.getDouble("amount"), rs.getString("date"), rs.getString("comment")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return incomes;
 	}
@@ -70,9 +73,9 @@ public class IncomeOperations {
 				income = new Income(rs.getInt("incomeID"), rs.getInt("userID"), rs.getInt("categoryID"), rs.getString("name"), rs.getDouble("amount"), rs.getString("date"), rs.getString("comment"));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return income;
 	}
@@ -87,9 +90,9 @@ public class IncomeOperations {
 			prep.setInt(5, incomeID);
 			prep.executeUpdate();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	public void deleteIncome(Connection connection, int incomeID) {
@@ -100,9 +103,9 @@ public class IncomeOperations {
 			ps.executeUpdate();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 
 	}
@@ -118,7 +121,7 @@ public class IncomeOperations {
 			}
 			return monthlyIncome;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return monthlyIncome;
 	}
@@ -139,51 +142,51 @@ public class IncomeOperations {
 				income.add(new Income(rs.getInt("incomeID"), rs.getInt("userID"), rs.getInt("categoryID"), rs.getString("name"), rs.getDouble("amount"), rs.getString("date"), rs.getString("comment")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return income;
 	}
 	public void downloadIncome(HttpServletResponse response, ArrayList<Income> income, User user) {
 		try {
-		//step 1: Initialize Document
-		Document document = new Document();
-		//step 2: Get Instance
-		PdfWriter.getInstance(document, response.getOutputStream());
-		//step 3: Open Document
-		document.open();
-		//Step 4: Retrieve Expenses Breakdown
+			//step 1: Initialize Document
+			Document document = new Document();
+			//step 2: Get Instance
+			PdfWriter.getInstance(document, response.getOutputStream());
+			//step 3: Open Document
+			document.open();
+			//Step 4: Retrieve Expenses Breakdown
 		
-		//Step 5: Initialize Title 
-		document.add(new Paragraph("Income Report of user: " + user.getUserName()));
-		document.add(new Paragraph("As of: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date().getTime())));
-		//Step 6: Initialize Table and Headers
-		PdfPTable table = new PdfPTable(4);
-		PdfPCell cell1 = new PdfPCell(new Paragraph("Category"));
-        PdfPCell cell2 = new PdfPCell(new Paragraph("Comment"));
-        PdfPCell cell3 = new PdfPCell(new Paragraph("Amount"));
-        PdfPCell cell4 = new PdfPCell(new Paragraph("Date Added"));
-        table.addCell(cell1);
-        table.addCell(cell2);
-        table.addCell(cell3);
-        table.addCell(cell4);
-        //Step 7: Loop through expenses
-        for(Income i : income) {
-        	PdfPCell category = new PdfPCell(new Paragraph(i.getCategory()));
-        	PdfPCell comment = new PdfPCell(new Paragraph(i.getComment()));
-        	PdfPCell cost = new PdfPCell(new Paragraph("Php " + i.getAmount()));
-        	PdfPCell date = new PdfPCell(new Paragraph(i.getDate()));
-        	table.addCell(category);
-        	table.addCell(comment);
-        	table.addCell(cost);
-        	table.addCell(date);
-        }
-        document.add(table);
-        document.close();
+			//Step 5: Initialize Title 
+			document.add(new Paragraph("Income Report of user: " + user.getUserName()));
+			document.add(new Paragraph("As of: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date().getTime())));
+			//Step 6: Initialize Table and Headers
+			PdfPTable table = new PdfPTable(4);
+			PdfPCell cell1 = new PdfPCell(new Paragraph("Category"));
+			PdfPCell cell2 = new PdfPCell(new Paragraph("Comment"));
+			PdfPCell cell3 = new PdfPCell(new Paragraph("Amount"));
+			PdfPCell cell4 = new PdfPCell(new Paragraph("Date Added"));
+			table.addCell(cell1);
+			table.addCell(cell2);
+			table.addCell(cell3);
+			table.addCell(cell4);
+			//Step 7: Loop through expenses
+			for(Income i : income) {
+				PdfPCell category = new PdfPCell(new Paragraph(i.getCategory()));
+				PdfPCell comment = new PdfPCell(new Paragraph(i.getComment()));
+				PdfPCell cost = new PdfPCell(new Paragraph("Php " + i.getAmount()));
+				PdfPCell date = new PdfPCell(new Paragraph(i.getDate()));
+				table.addCell(category);
+				table.addCell(comment);
+				table.addCell(cost);
+				table.addCell(date);
+			}
+			document.add(table);
+			document.close();
        
 		}catch(Exception e) {
-		System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 }

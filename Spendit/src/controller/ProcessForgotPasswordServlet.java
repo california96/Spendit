@@ -46,9 +46,9 @@ public class ProcessForgotPasswordServlet extends HttpServlet {
 		HashMap<Object, Object> errorMsg = new HashMap<>();
 		String json;
 		if(userOps.checkEmail(connection, email)) {
-			System.out.println("Yes!");
 			String newPass = userOps.generatePassword();
-			System.out.println(newPass);
+			//System.out.println(newPass);
+			//log.debug(newPass) //only uncomment this if you need to debug
 			userOps.updatePassword(connection, email, BCrypt.hashpw(newPass, BCrypt.gensalt()));
 			Mailer mailer = new Mailer(context);
 			String messageBody = SpenditConstants.MESSAGE_BODY + newPass + SpenditConstants.MESSAGE_BODY_THANKS;

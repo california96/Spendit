@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import model.User;
 import model.Expense;
@@ -26,6 +27,8 @@ import utility.DBConnection;
  */
 @WebServlet("/editexpense.action")
 public class ExpenseEditServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(ExpenseEditServlet.class.getName());
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -47,7 +50,6 @@ public class ExpenseEditServlet extends HttpServlet {
 		Connection connection = DBConnection.getConnection(getServletContext());
 		if(StringUtils.isBlank(comment)) {
 			response.sendError(400);
-			//response.sendRedirect("400.jsp");
 			return;
 		}
 		try {
@@ -58,7 +60,7 @@ public class ExpenseEditServlet extends HttpServlet {
 		
 		response.sendRedirect("retrieveexpenses.action");
 		}catch(ParseException pe) {
-			System.err.println(pe.getMessage());
+			log.error(pe.getMessage());
 		}
 	
 

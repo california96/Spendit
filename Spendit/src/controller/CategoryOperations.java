@@ -14,10 +14,13 @@ import java.util.ArrayList;
 
 import javax.servlet.http.Part;
 
+import org.apache.log4j.Logger;
+
 import model.Category;
 import model.Expense;
 
 public class CategoryOperations {
+	static Logger log = Logger.getLogger(CategoryOperations.class.getName());
 	public boolean insert(Connection connection, String name, int moduleID, String description, String image) {
 		String sql = "INSERT INTO categories(name, moduleID, description, image) VALUES (?, ?, ?, ?)";
 		try {
@@ -29,15 +32,14 @@ public class CategoryOperations {
 			prep.executeUpdate();
 			return true;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return false;
 	}
 	public ArrayList<Category> getCategories(Connection connection, int moduleID){
 		ArrayList<Category> categories = new ArrayList<Category>();
-		//public Expense(int expenseID, int categoryID, String category, int userID, double cost, Date date, String comment)
 		String sql = "SELECT id, name, categories.moduleID, modules.modulename, description, image\n" + 
 				"FROM categories\n" + 
 				"INNER JOIN modules on modules.moduleID = categories.moduleID\n" + 
@@ -50,15 +52,14 @@ public class CategoryOperations {
 				categories.add(new Category(rs.getInt("id"), rs.getString("name"), rs.getInt("moduleID"), rs.getString("modulename"), rs.getString("description"), rs.getString("image")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return categories;
 	}
 	public ArrayList<Category> getAllCategories(Connection connection){
 		ArrayList<Category> categories = new ArrayList<Category>();
-		//public Expense(int expenseID, int categoryID, String category, int userID, double cost, Date date, String comment)
 		String sql = "SELECT id, name, categories.moduleID, modules.modulename, description, image\n" + 
 				"FROM categories\n" + 
 				"INNER JOIN modules on modules.moduleID = categories.moduleID"; 
@@ -69,9 +70,9 @@ public class CategoryOperations {
 				categories.add(new Category(rs.getInt("id"), rs.getString("name"), rs.getInt("moduleID"), rs.getString("modulename"), rs.getString("description"), rs.getString("image")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return categories;
 	}
@@ -86,13 +87,12 @@ public class CategoryOperations {
 			prep.setInt(1, categoryID);
 			ResultSet rs = prep.executeQuery();
 			while(rs.next()) {
-				//category = new Category(rs.getInt("id"), rs.getString("name"), rs.getInt("moduleID"), rs.getString("modulename"), rs.getString("description"), rs.getString("image"));
 				category = new Category(rs.getInt("id"), rs.getString("name"), rs.getInt("moduleID"), rs.getString("module"), rs.getString("description"), rs.getString("image"));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return category;
 	}
@@ -107,9 +107,9 @@ public class CategoryOperations {
 			prep.setInt(5, categoryID);
 			prep.executeUpdate();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	public void delete(Connection connection,int categoryID) {
@@ -119,26 +119,20 @@ public class CategoryOperations {
 			prep.setInt(1, categoryID);
 			prep.executeUpdate();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	public String uploadImage(String uploadPath, Part filePart) {
 		String fileName;
 		try {
 			fileName = getFileName(filePart);
-			//String path = "fileStorage" + File.separator + fileName;
 			InputStream is = filePart.getInputStream();
 			Files.copy(is, Paths.get(uploadPath  + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
-			System.out.println("Filename: " + fileName);
 			return fileName;
-//		}catch(DirectoryNotEmptyException dnee) {
-//			return dnee.getMessage();
-//		}catch(IOException ioe) {
-//			return ioe.getMessage();
 		}catch(Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage());
 			return e.getMessage();
 		}
 		
@@ -152,12 +146,5 @@ public class CategoryOperations {
 			}
 		}
 		return "";
-	}
-	public boolean checkDuplicate(String categoryName, int moduleID) {
-		try {
-		}catch(Exception e) {
-			
-		}
-		return false;
 	}
 }

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import model.User;
 import model.Expense;
@@ -29,6 +30,7 @@ import utility.DBConnection;
 @WebServlet("/updateincome.action")
 public class IncomeEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	static Logger log = Logger.getLogger(IncomeEditServlet.class.getName());
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,19 +52,18 @@ public class IncomeEditServlet extends HttpServlet {
 		IncomeOperations inOps = new IncomeOperations();
 		if(StringUtils.isBlank(comment)) {
 			response.sendError(400);
-			//response.sendRedirect("400.jsp");
 			return;
 		}
 		try {
-		ExpenseOperations exOps = new ExpenseOperations();
-		java.util.Date parsedDate = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(date);// Month/Day/Year Hour:Minute A/PM
-		date = new SimpleDateFormat("yyyy-MM-dd").format(parsedDate);// Year-Month-Day Hour:Minute:Seconds 24 hour
-		inOps.editIncome(connection, incomeID, categoryID, amount, date, comment);
+			ExpenseOperations exOps = new ExpenseOperations();
+			java.util.Date parsedDate = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(date);// Month/Day/Year Hour:Minute A/PM
+			date = new SimpleDateFormat("yyyy-MM-dd").format(parsedDate);// Year-Month-Day Hour:Minute:Seconds 24 hour
+			inOps.editIncome(connection, incomeID, categoryID, amount, date, comment);
 		
 		
-		response.sendRedirect("retrieveallincome.action");
+			response.sendRedirect("retrieveallincome.action");
 		}catch(ParseException pe) {
-			System.err.println(pe.getMessage());
+			log.error(pe.getMessage());
 		}
 
 		

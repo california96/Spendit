@@ -16,8 +16,10 @@ import javax.servlet.http.Part;
 import model.User;
 import utility.BCrypt;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.log4j.Logger;
 
 public class UserOperations {
+	static Logger log = Logger.getLogger(UserOperations.class.getName());
 	public boolean insert(Connection connection, String userName, String email, String password, String firstName, String lastName, String image) {
 		String sql = "INSERT INTO users(username, email, password, firstname, lastname, image) VALUES (?, ?, ?, ?, ?, ?)";
 		try {
@@ -31,9 +33,9 @@ public class UserOperations {
 			prep.executeUpdate();
 			return true;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return false;
 	}
@@ -53,9 +55,9 @@ public class UserOperations {
 				}
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return false;
 	}
@@ -71,9 +73,9 @@ public class UserOperations {
 				user = new User(rs.getInt("userID"), rs.getString("lastname"), rs.getString("firstname"), rs.getString("username"), rs.getString("email"), rs.getString("image"));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return user;
 	}
@@ -90,7 +92,7 @@ public class UserOperations {
 			//String path = "fileStorage" + File.separator + fileName;
 			InputStream is = filePart.getInputStream();
 			Files.copy(is, Paths.get(uploadPath  + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
-			System.out.println("Filename: " + fileName);
+			log.debug("Filename: " + fileName);
 			return fileName;
 //		}catch(DirectoryNotEmptyException dnee) {
 //			return dnee.getMessage();
@@ -121,7 +123,7 @@ public class UserOperations {
 			ResultSet rs = ps.executeQuery();
 			return (rs.next());
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return false;
 	}
@@ -133,7 +135,7 @@ public class UserOperations {
 			ps.setString(2, email);
 			ps.executeUpdate();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 			
 		}
 	}
@@ -150,7 +152,7 @@ public class UserOperations {
 			ResultSet rs = ps.executeQuery();
 			return(rs.next());
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return false;
 	}
@@ -164,10 +166,10 @@ public class UserOperations {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userID = rs.getInt("userID");
-				System.out.println("User ID: " + userID);
+				log.debug("User ID: " + userID);
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return userID;
 	}

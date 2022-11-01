@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 public class WishlistOperations {
+	static Logger log = Logger.getLogger(WishlistOperations.class.getName());
 	public boolean insert(Connection connection, Wishlist wishlist) {
 		boolean isSuccessful = false;
 		String sql = "INSERT into wishlist(userID, categoryID, incomeSourceID, statusID, amount, date, comment) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -24,14 +27,13 @@ public class WishlistOperations {
 			ps.executeUpdate();
 			isSuccessful = true;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return isSuccessful;
 	}
 	public ArrayList<Wishlist> getFullWishlist(Connection connection, int userID){
 		ArrayList<Wishlist> wishlist = new ArrayList<Wishlist>();
-		//public Expense(int expenseID, int categoryID, String category, int userID, double cost, Date date, String comment)
-		//Wishlist wishlist = new Wishlist(id, userID, categoryID, category, incomeSourceID, incomeSource, statusID, status, amount, date, comment)
+
 		String sql = "SELECT wishID, users.userID, wishlist.categoryID, categories.name, wishlist.statusID, status.status, wishlist.amount, wishlist.date, wishlist.comment\n" + 
 				"FROM wishlist\n" + 
 				"INNER JOIN users on users.userID = wishlist.userID\n" + 
@@ -46,9 +48,9 @@ public class WishlistOperations {
 				wishlist.add(new Wishlist(rs.getInt("wishID"), rs.getInt("userID"), rs.getInt("categoryID"), rs.getString("name"), rs.getInt("statusID"), rs.getString("status"), rs.getDouble("amount"), rs.getString("date"), rs.getString("comment")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return wishlist;
 	}
@@ -65,10 +67,10 @@ public class WishlistOperations {
 			ps.setInt(7, wishID);
 			ps.executeUpdate();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	public void deleteWishlist(Connection connection, int wishID) {
@@ -79,9 +81,9 @@ public class WishlistOperations {
 			ps.executeUpdate();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	public Wishlist retrieveWish(Connection connection, int wishID) {
@@ -102,7 +104,7 @@ public class WishlistOperations {
 						rs.getString("status"), rs.getDouble("amount"), rs.getString("date"), rs.getString("comment"));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return wish;
 	}
@@ -119,7 +121,7 @@ public class WishlistOperations {
 				wishTotal = rs.getDouble("totalwish");
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return wishTotal;
 	}
@@ -152,7 +154,7 @@ public class WishlistOperations {
 				wishes.add(wish);
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return wishes;
 	}

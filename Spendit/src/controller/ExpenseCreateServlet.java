@@ -17,11 +17,15 @@ import model.Expense;
 import model.User;
 import utility.DBConnection;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class ExpenseCreateServlet
  */
 @WebServlet("/createexpense.action")
 public class ExpenseCreateServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(ExpenseCreateServlet.class.getName());
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -43,21 +47,21 @@ public class ExpenseCreateServlet extends HttpServlet {
 		String comment = request.getParameter("comment");
 		
 		try {
-		java.util.Date parsedDate = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(date);// Month/Day/Year Hour:Minute A/PM
-		date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(parsedDate);// Year-Month-Day Hour:Minute:Seconds 24 hour
-		HttpSession session = request.getSession(false);
-		User user = (User)session.getAttribute("user");
-		Connection connection = DBConnection.getConnection(getServletContext());
-		ExpenseOperations exOps = new ExpenseOperations();
-		if(exOps.insert(connection, categoryID, user.getUserID(), cost, date, comment)) {
+			java.util.Date parsedDate = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(date);// Month/Day/Year Hour:Minute A/PM
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(parsedDate);// Year-Month-Day Hour:Minute:Seconds 24 hour
+			HttpSession session = request.getSession(false);
+			User user = (User)session.getAttribute("user");
+			Connection connection = DBConnection.getConnection(getServletContext());
+			ExpenseOperations exOps = new ExpenseOperations();
+			if(exOps.insert(connection, categoryID, user.getUserID(), cost, date, comment)) {
 			
-			response.sendRedirect("retrieveexpenses.action");
+				response.sendRedirect("retrieveexpenses.action");
 			
-		}
+			}
 	
-		}catch(java.text.ParseException pe) {
-			System.err.println(pe.getMessage());
-		}
+			}catch(java.text.ParseException pe) {
+				log.error(pe.getMessage());
+			}
 	}
 
 }

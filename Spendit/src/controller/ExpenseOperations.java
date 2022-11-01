@@ -17,12 +17,15 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 public class ExpenseOperations {
+	static Logger log = Logger.getLogger(ExpenseOperations.class.getName());
 	public boolean insert(Connection connection, int categoryID, int userID, double cost, String date, String comment) {
 		String sql = "INSERT INTO expenses(categoryID, userID, cost, date, comment) VALUES (?, ?, ?, ?, ?)";
 		try {
@@ -35,9 +38,9 @@ public class ExpenseOperations {
 			prep.executeUpdate();
 			return true;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return false;
 	}
@@ -57,9 +60,9 @@ public class ExpenseOperations {
 				expenses.add(new Expense(rs.getInt("expenseID"), rs.getInt("categoryID"), rs.getString("name"), rs.getInt("userID"), rs.getDouble("cost"), rs.getString("date"), rs.getString("comment")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return expenses;
 	}
@@ -78,9 +81,9 @@ public class ExpenseOperations {
 				expense = new Expense(rs.getInt("expenseID"), rs.getInt("categoryID"), rs.getString("name"), rs.getInt("userID"), rs.getDouble("cost"), rs.getString("date"), rs.getString("comment"));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return expense;
 	}
@@ -92,9 +95,9 @@ public class ExpenseOperations {
 			ps.executeUpdate();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 
 	}
@@ -111,9 +114,9 @@ public class ExpenseOperations {
 			ps.executeUpdate();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 
 	}
@@ -131,7 +134,7 @@ public class ExpenseOperations {
 		}
 		return todayExpense;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return todayExpense;
 	}
@@ -147,7 +150,7 @@ public class ExpenseOperations {
 		}
 		return todayExpense;
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return todayExpense;
 	}
@@ -170,7 +173,7 @@ public class ExpenseOperations {
 
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return categoryExpense;
 	}
@@ -190,9 +193,9 @@ public class ExpenseOperations {
 				expenses.add(new Expense(rs.getInt("expenseID"), rs.getInt("categoryID"), rs.getString("name"), rs.getInt("userID"), rs.getDouble("cost"), rs.getString("date"), rs.getString("comment")));
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return expenses;
 	}
@@ -234,12 +237,11 @@ public class ExpenseOperations {
         document.close();
        
 		}catch(Exception e) {
-		System.err.println(e.getMessage());
+		log.error(e.getMessage());
 		}
 	}
 	public ArrayList<Map<String, String>> getRecentExpenses(Connection connection, int userID){
 		ArrayList<Map<String, String>> expenses = new ArrayList<Map<String, String>>();
-		//public Expense(int expenseID, int categoryID, String category, int userID, double cost, Date date, String comment)
 		String sql = "SELECT expenseID, categoryID, categories.name, categories.image, users.firstName, users.lastName, users.userID, cost, date, comment\n" + 
 				"FROM expenses\n" + 
 				"INNER JOIN users on users.userID = expenses.userID\n" + 
@@ -251,8 +253,6 @@ public class ExpenseOperations {
 			prep.setInt(1, userID);
 			ResultSet rs = prep.executeQuery();
 			while(rs.next()) {
-				//expenses.add(new Expense(rs.getInt("expenseID"), rs.getInt("categoryID"), rs.getString("name"), rs.getInt("userID"), rs.getDouble("cost"), rs.getString("date"), rs.getString("comment")));
-				//expense.add();
 				Map<String, String> reMap = new HashMap<String, String>();
 				reMap.put("image", rs.getString("image"));
 				reMap.put("name", rs.getString("name"));
@@ -265,9 +265,9 @@ public class ExpenseOperations {
 
 			}
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return expenses;
 	}

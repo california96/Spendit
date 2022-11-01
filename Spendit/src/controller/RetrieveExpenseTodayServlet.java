@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import java.util.HashMap;
 import model.Income;
@@ -22,6 +24,7 @@ import utility.DBConnection;
  */
 @WebServlet("/expensetoday.action")
 public class RetrieveExpenseTodayServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(RetrieveExpenseTodayServlet.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -40,7 +43,7 @@ public class RetrieveExpenseTodayServlet extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(json);
-		System.out.println(json);
+		log.info(json);
 	}
 
 	/**

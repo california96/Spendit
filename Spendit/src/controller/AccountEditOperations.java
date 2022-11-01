@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import utility.BCrypt;
-
+import org.apache.log4j.Logger;
 public class AccountEditOperations {
 	
+	static Logger log = Logger.getLogger(AccountEditOperations.class.getName());
+
 	public void editAccount(Connection connection, String firstName, String lastName, String username, String email, String image, int userID) {
 		String sql = "UPDATE users SET firstname = ? , lastname = ?, username = ?, email = ?, image = ? WHERE users.userID = ?";
 		try {
@@ -22,9 +24,9 @@ public class AccountEditOperations {
 			ps.executeUpdate();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}catch(Exception e) {
-			System.err.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 	}
 	
@@ -38,9 +40,9 @@ public class AccountEditOperations {
 				ps.executeUpdate();
 				
 			}catch(SQLException sqle) {
-				System.err.println(sqle.getMessage());
+				log.error(sqle.getMessage());
 			}catch(Exception e) {
-				System.err.println(e.getMessage());
+				log.error(e.getMessage());
 			}
 		}
 		
@@ -62,9 +64,9 @@ public class AccountEditOperations {
                 }
             }
         }catch(SQLException sqle) {
-            System.err.println(sqle.getMessage());
+            log.error(sqle.getMessage());
         }catch(Exception e) {
-            System.err.println(e.getMessage());
+            log.error(e.getMessage());
         }
         return false;
     }

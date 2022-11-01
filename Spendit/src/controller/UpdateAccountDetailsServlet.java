@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import model.User;
 import utility.DBConnection;
@@ -23,6 +24,7 @@ import utility.DBConnection;
 @MultipartConfig
 @WebServlet("/updateaccount.action")
 public class UpdateAccountDetailsServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(UpdateAccountDetailsServlet.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -53,12 +55,12 @@ public class UpdateAccountDetailsServlet extends HttpServlet {
 		String uploadPath = getServletContext().getInitParameter("profilePicStorage");
 		Connection connection = DBConnection.getConnection(getServletContext());
 		if(StringUtils.isBlank(firstName) || StringUtils.isBlank(lastName) || StringUtils.isBlank(username) ) { //assume that XSSFilter is blocked
-			System.out.println("First Name is: " + firstName);
-			System.out.println("Last Name is: " + lastName);
+			log.debug("First Name is: " + firstName);
+			log.debug("Last Name is: " + lastName);
 			
-			System.out.println("User Name is: " + username);
-			System.out.println("Email  is: " + email);
-			//response.sendRedirect("400.jsp");
+			log.debug("User Name is: " + username);
+			log.debug("Email  is: " + email);
+
 			response.sendError(400);
 			return;
 		}

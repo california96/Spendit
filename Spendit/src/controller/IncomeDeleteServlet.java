@@ -48,7 +48,6 @@ public class IncomeDeleteServlet extends HttpServlet {
 		IncomeOperations inOp = new IncomeOperations();
 		
 		inOp.deleteIncome(connection, incomeID);
-		//System.out.println("What happened to income: " + incomeID);
 		request.getRequestDispatcher("retrieveallincome.action").forward(request, response);
 		
 		

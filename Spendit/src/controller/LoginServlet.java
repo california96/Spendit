@@ -20,8 +20,13 @@ import com.google.gson.Gson;
 import model.User;
 import utility.DBConnection;
 
+import org.apache.log4j.Logger;
+
+
 //@WebServlet("/login.action")
 public class LoginServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(LoginServlet.class.getName());
+
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,9 +39,6 @@ public class LoginServlet extends HttpServlet {
 		ServletContext context = getServletContext();
 		
 		Connection connection = DBConnection.getConnection(context);
-//		System.out.println(context.getInitParameter("JDBCUrl"));
-//		System.out.println(context.getInitParameter("JDBCUser"));
-//		System.out.println(context.getInitParameter("JDBCPass"));
 		UserOperations auth = new UserOperations();
 		
 		
@@ -52,28 +54,22 @@ public class LoginServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			errorMsg.put("msg", "success");
 			json = gson.toJson(errorMsg);
-			System.out.println(json);
+			log.debug(json);
+			
+			
 			session.setAttribute("user", auth.getUser(connection, username));
-//			User user = (User) session.getAttribute("user");
-//			System.out.println(session.getId());
 			response.getWriter().write(json);
 		
 			
-		//	request.getRequestDispatcher("index.jsp").forward(request, response);
 		} else {
-			//request.getRequestDispatcher("error.jsp").forward(request, response);
-			
-	
-			   //out.println("alert('User or password incorrect');");
 			
 			
 			   response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 				errorMsg.put("msg", "error");
 				json = gson.toJson(errorMsg);
-				System.out.println(json);
+				log.warn(json);
 				response.getWriter().write(json);
-			//request.getRequestDispatcher("login.jsp").forward(request, response);
 			
 		}
 	}

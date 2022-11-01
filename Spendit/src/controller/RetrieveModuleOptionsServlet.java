@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 
 import utility.DBConnection;
@@ -23,6 +25,7 @@ import utility.DBConnection;
 @WebServlet("/retrievemodules.action")
 public class RetrieveModuleOptionsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	static Logger log = Logger.getLogger(RetrieveModuleOptionsServlet.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,7 +44,7 @@ public class RetrieveModuleOptionsServlet extends HttpServlet {
 		ArrayList<model.Module>modules = new ModuleOperations().getModules(connection);
 		Gson gson = new Gson();
 		String json = gson.toJson(modules);
-		System.out.println(json);
+		log.info(json);
 		response.getWriter().write(json);
 	
 	

@@ -2,10 +2,12 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import org.apache.log4j.Logger;
 
 import model.DatabaseFacade;
 public class DatabaseController implements DatabaseFacade{
+	static Logger log = Logger.getLogger(DatabaseController.class.getName());
+
 	private Connection connection;
 	public DatabaseController(Connection connection) {
 		this.connection = connection;
@@ -88,7 +90,7 @@ public class DatabaseController implements DatabaseFacade{
 			
 			stmt.executeBatch();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.debug(sqle.getMessage());
 		}
 	}
 	public void linkForeignKeys() {
@@ -153,7 +155,7 @@ public class DatabaseController implements DatabaseFacade{
 			stmt.executeBatch();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.debug(sqle.getMessage());
 		}
 	}
 	public void createInitialValues() {
@@ -173,7 +175,7 @@ public class DatabaseController implements DatabaseFacade{
 			stmt.addBatch(readyActivities);
 			stmt.executeBatch();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.debug(sqle.getMessage());
 		}
 	}
 	@Override

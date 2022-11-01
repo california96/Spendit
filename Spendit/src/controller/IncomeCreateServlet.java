@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import model.Expense;
 import model.Income;
@@ -24,6 +25,7 @@ import utility.DBConnection;
  */
 @WebServlet("/createincome.action")
 public class IncomeCreateServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(IncomeCreateServlet.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -49,18 +51,17 @@ public class IncomeCreateServlet extends HttpServlet {
 		Connection connection = DBConnection.getConnection(getServletContext());
 		if(StringUtils.isBlank(comment)) {
 			response.sendError(400);
-			//response.sendRedirect("400.jsp");
 			return;
 		}
 		try {
-		java.util.Date parsedDate = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(date);// Month/Day/Year Hour:Minute A/PM
-		date = new SimpleDateFormat("yyyy-MM-dd").format(parsedDate);// Year-Month-Day Hour:Minute:Seconds 24 hour
-		IncomeOperations inOps = new IncomeOperations();
-		if(inOps.insert(connection, user.getUserID(), categoryID, amount, date, comment)) {
-			response.sendRedirect("retrieveallincome.action");
-		}
+			java.util.Date parsedDate = new SimpleDateFormat("MM/dd/yyyy hh:mm a").parse(date);// Month/Day/Year Hour:Minute A/PM
+			date = new SimpleDateFormat("yyyy-MM-dd").format(parsedDate);// Year-Month-Day Hour:Minute:Seconds 24 hour
+			IncomeOperations inOps = new IncomeOperations();
+			if(inOps.insert(connection, user.getUserID(), categoryID, amount, date, comment)) {
+				response.sendRedirect("retrieveallincome.action");
+			}
 		}catch(java.text.ParseException pe) {
-			System.err.println(pe.getMessage());
+			log.error(pe.getMessage());
 		}
 	}
 

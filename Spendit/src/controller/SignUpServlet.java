@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 
@@ -28,6 +29,7 @@ import utility.DBConnection;
 @MultipartConfig
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	static Logger log = Logger.getLogger(SignUpServlet.class.getName());
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -74,7 +76,7 @@ public class SignUpServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			errorMsg.put("msg", "success");
 			json = gson.toJson(errorMsg);
-			System.out.println(json);
+			log.info(json);
 			session.setAttribute("user", newUser.getUser(connection, username));
 			response.getWriter().write(json);
 			
@@ -84,9 +86,8 @@ public class SignUpServlet extends HttpServlet {
 				response.setCharacterEncoding("UTF-8");
 				errorMsg.put("msg", "error");
 				json = gson.toJson(errorMsg);
-				System.out.println(json);
+				log.warn(json);
 				response.getWriter().write(json);
-			//request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
 }

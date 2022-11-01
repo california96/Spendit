@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 /**
  * Servlet implementation class RetrieveProfilePictureServlet
  */
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RetrieveImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     public static int BUFFER_SIZE = 1024 * 100;
+    static Logger log = Logger.getLogger(RetrieveImageServlet.class.getName());
    
     public void init(ServletConfig config)throws ServletException{
     	super.init(config);
@@ -32,20 +35,18 @@ public class RetrieveImageServlet extends HttpServlet {
 		String module = request.getParameter("module");
 		String application = "";
 		switch(module.toLowerCase()) {
-		case "profile":
-			application = getServletContext().getInitParameter("profilePicStorage");
+			case "profile":
+				application = getServletContext().getInitParameter("profilePicStorage");
 			break;
-		case "category":
-			application = getServletContext().getInitParameter("categoryStorage");
-			break;
-		
-			
+			case "category":
+				application = getServletContext().getInitParameter("categoryStorage");
+			break;		
 		}
 		
 		String filePath = application + File.separator + fileName;
 		if(fileName == null || fileName.equals(""))
 		{
-			System.err.println("File not found");
+			log.error("File not found");
 		}
 		else{
 			File file = new File(filePath);
@@ -64,7 +65,7 @@ public class RetrieveImageServlet extends HttpServlet {
 						outStream.write(buffer, 0, bytesRead);
 					}
 				}catch(IOException ioe) {
-					System.err.println(ioe.getMessage());
+					log.error(ioe.getMessage());
 				}finally {
 					if(inputStream != null) {
 						inputStream.close();

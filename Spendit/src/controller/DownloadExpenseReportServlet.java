@@ -23,11 +23,13 @@ import model.Expense;
 import model.User;
 import utility.DBConnection;
 
+import org.apache.log4j.Logger;
 /**
  * Servlet implementation class DownloadExpenseReportServlet
  */
 @WebServlet("/downloadexpenses.action")
 public class DownloadExpenseReportServlet extends HttpServlet {
+	static Logger log = Logger.getLogger(DownloadExpenseReportServlet.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -43,45 +45,6 @@ public class DownloadExpenseReportServlet extends HttpServlet {
 		response.setHeader("Content-disposition","attachment;filename="+ user.getUserName() + "-expenses" + ".pdf");
 		ArrayList<Expense> expenses = exOps.getExpensesInMonth(connection, user.getUserID());
 		exOps.downloadExpenses(response, expenses, user);
-	/*	try {
-			//step 1: Initialize Document
-			Document document = new Document();
-			//step 2: Get Instance
-			PdfWriter.getInstance(document, response.getOutputStream());
-			//step 3: Open Document
-			document.open();
-			//Step 4: Retrieve Expenses Breakdown
-			ArrayList<Expense> expenses = new ExpenseOperations().getAllExpenses(connection, user.getUserID());
-			//Step 5: Initialize Title 
-			document.add(new Paragraph("Expense Report of user: " + user.getUserName()));
-			document.add(new Paragraph("As of: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date().getTime())));
-			//Step 6: Initialize Table and Headers
-			PdfPTable table = new PdfPTable(4);
-			PdfPCell cell1 = new PdfPCell(new Paragraph("Category"));
-	        PdfPCell cell2 = new PdfPCell(new Paragraph("Comment"));
-	        PdfPCell cell3 = new PdfPCell(new Paragraph("Cost"));
-	        PdfPCell cell4 = new PdfPCell(new Paragraph("Date Added"));
-	        table.addCell(cell1);
-	        table.addCell(cell2);
-	        table.addCell(cell3);
-	        table.addCell(cell4);
-	        //Step 7: Loop through expenses
-	        for(Expense e : expenses) {
-	        	PdfPCell category = new PdfPCell(new Paragraph(e.getCategory()));
-	        	PdfPCell comment = new PdfPCell(new Paragraph(e.getComment()));
-	        	PdfPCell cost = new PdfPCell(new Paragraph("Php " + e.getCost()));
-	        	PdfPCell date = new PdfPCell(new Paragraph(e.getDate()));
-	        	table.addCell(category);
-	        	table.addCell(comment);
-	        	table.addCell(cost);
-	        	table.addCell(date);
-	        }
-	        document.add(table);
-	        document.close();
-	       
-		}catch(Exception e) {
-			System.err.println(e.getMessage());
-		}*/
 		
 	}
 

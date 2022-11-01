@@ -36,9 +36,7 @@ public class CategoryCreateServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println(request.getParameter("name"));
-		
+		// TODO Auto-generated method stub		
 		int moduleID = Integer.parseInt(request.getParameter("module"));
 		String name = request.getParameter("name");
 		String description = request.getParameter("description");
@@ -50,12 +48,6 @@ public class CategoryCreateServlet extends HttpServlet {
 			response.sendRedirect("categoryindex.action");
 		}
 		
-	
-		Enumeration<String> params = request.getParameterNames(); 
-		while(params.hasMoreElements()){
-		 String paramName = params.nextElement();
-		 System.out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
-		}
 
 	}
 

@@ -15,11 +15,14 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.opencsv.CSVWriter;
 
 import model.Log;
 
 public class LogController {
+	static Logger log = Logger.getLogger(LogController.class.getName());
 	public static final int ACCOUNT_CREATED = 1;
 	public static final int LOGGED_IN = 2;
 	public static final int LOGGED_OUT = 3;
@@ -35,7 +38,7 @@ public class LogController {
 			ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()));
 			ps.executeUpdate();
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 	}
 	public static ResultSet getAllLogs(Connection connection){
@@ -48,7 +51,7 @@ public class LogController {
 			rs = ps.executeQuery();
 			
 		}catch(SQLException sqle) {
-			System.err.println(sqle.getMessage());
+			log.error(sqle.getMessage());
 		}
 		return rs;
 	}
